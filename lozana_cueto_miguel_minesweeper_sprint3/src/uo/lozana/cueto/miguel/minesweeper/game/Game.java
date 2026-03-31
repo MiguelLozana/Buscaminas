@@ -4,9 +4,7 @@ import uo.lozana.cueto.miguel.minesweeper.game.board.Board;
 import uo.mp.util.check.ArgumentChecks;
 
 
-/**
- * This class make the game works and things
- */
+
 public class Game {
 	private Board board;
     private GameInteractor interactor;
@@ -17,6 +15,12 @@ public class Game {
 	public Game(Board board) {
 		ArgumentChecks.isNotNull(board);
 		this.board = board;
+	}
+	/**
+	 * The board is created randomly
+	 */
+	public Game() {
+		this.board = new Board();
 	}
 	public void setInteractor(GameInteractor consoleGameInteractor) {
 		ArgumentChecks.isNotNull(consoleGameInteractor, "The interactor cannot be null");
