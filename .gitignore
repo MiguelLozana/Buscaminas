@@ -1,0 +1,13 @@
+# Ignorar configuración de Workspace de Eclipse
+.metadata/
+.recommenders/
+RemoteSystemsTempFiles/
+.settings/
+
+# Ignorar archivos compilados (el código traducido que no escribes tú)
+bin/
+*.class
+
+# Ignorar archivos temporales de Windows
+Thumbs.db
+desktop.ini
