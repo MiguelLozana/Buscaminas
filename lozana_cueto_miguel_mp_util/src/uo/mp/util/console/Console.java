@@ -3,6 +3,8 @@ package uo.mp.util.console;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
+
 
 import uo.mp.util.check.ArgumentChecks;
 
@@ -224,4 +226,9 @@ public final class Console {
             System.out.println("Invalid option. Please, try again with (Y/N)");
         }
     }
+    public static <T> void printList(List<T> elements) {
+		for (T element:elements) {
+			System.out.println(element);		
+		}
+	}
  }

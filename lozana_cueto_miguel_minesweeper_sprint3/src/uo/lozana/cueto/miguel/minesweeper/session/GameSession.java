@@ -1,31 +1,31 @@
 package uo.lozana.cueto.miguel.minesweeper.session;
 
 
+import uo.mp.minesweeper.util.log.SimpleLogger;
 
-import org.junit.platform.commons.logging.Logger;
 
-import uo.lozana.cueto.miguel.minesweeper.console.ConsoleGameInteractor;
 import uo.lozana.cueto.miguel.minesweeper.game.Game;
 import uo.lozana.cueto.miguel.minesweeper.game.GameInteractor;
-import uo.lozana.cueto.miguel.minesweeper.game.GameMove;
 import uo.lozana.cueto.miguel.minesweeper.game.board.Board;
 import uo.lozana.cueto.miguel.minesweeper.ranking.GameRanking;
+import uo.lozana.cueto.miguel.minesweeper.ranking.GameRankingEntry;
 import uo.mp.util.check.ArgumentChecks;
-import uo.mp.util.console.Console;
 
-public class GameSesion {
+public class GameSession {
+	private static final String INVALID_OPTION_MESSAGE = "Invalid option";
+	
 	private GameInteractor gameInteractor;
 	private SessionInteractor sesion;
-	private Logger logger;
+	private SimpleLogger logger;
 	private GameRanking ranking;
+	private String name; 
 	
 	
-	public GameSesion(GameInteractor gameInteractor, SessionInteractor sesion, Logger logger, GameRanking ranking) {
+	public GameSession(GameInteractor gameInteractor, SessionInteractor sesion, SimpleLogger logger, GameRanking ranking) {
 		setGameInteractor(gameInteractor);
-		setGameRanking(ranking);
+		setSessionInteractor(sesion);
 		setLogger(logger);
 		setGameRanking(ranking);
-		run();
 	}
 	
 	
@@ -42,7 +42,7 @@ public class GameSesion {
 		this.sesion = interactor;
 	}
 	
-	public void setLogger(Logger logger) {
+	public void setLogger(SimpleLogger logger) {
 		ArgumentChecks.isNotNull(logger,"The Sesion logger mus not be null");
 		this.logger = logger;
 	}
@@ -57,50 +57,73 @@ public class GameSesion {
 	 * ========================================
 	 */
 	public void run() {
-		sesion.AskForName();
-		while (true) {
-			handleMenu();
-		}
+	    try {
+	    	this.name = sesion.askUserName(); 
+            mainLoop();
+            sesion.showGoodBye();
+	    } catch (RuntimeException e) {       
+	        logger.log(e);                   
+	        sesion.showFatalErrorMessage("Error interno irrecuperable.");
+	    }
+	}
+	
+	
+	private void mainLoop() {
+	    int option;
+	    while ((option = sesion.askNextOption()) != 0) { 
+	        try {
+	            handleOption(option); 
+	        } catch (GameException e) {
+	        	sesion.showErrorMessage(e.getMessage());
+	        }
+	    }
 	}
 	
 
-	private void handleMenu() {
-		sesion.showMenu();
-		int option = sesion.askForOption();
-		handleOption(option);
-	}
-	private void handleOption(int option) {
+	private void handleOption(int option) throws GameException {
 		switch (option) {
 		case 1 -> playGame();
-		case 2 -> allScores();
-		case 3 -> myScores();
-		case 4 -> exit();
-		default -> throw new RuntimeException();
-		}
+		case 2 -> showAllRanking();
+		case 3 -> showMyRanking();
+		default -> throw new GameException(INVALID_OPTION_MESSAGE);
+		};
 		
 	}
 	
-
-
+	private void showAllRanking() {
+		sesion.showRanking(ranking.getAllEntries());
+	}
+	private void showMyRanking() {
+		sesion.showRanking(ranking.getEntriesForUsername(name));
+	}
+	
 	private void playGame() {
-		sesion.showDifficulties();
-		GameLevel  level = sesion.askForDifficulty();
+		
+		GameLevel  level = sesion.askGameLevel();
 	
 		Board board = switch (level) {
 	    case  FACIL -> new Board(9,9,12);
 	    case MEDIANO-> new Board(16,16,15);
 	    case DIFICIL-> new Board(30,16,20);
 	    default -> throw new RuntimeException("Nivel no reconocido");
-		};
+		}; 
 		Game game = new Game(board);
 		game.setInteractor(gameInteractor);
 		game.play();
-		if(sesion.saveScore()) {
+		if(sesion.doYouWantToRegisterYourScore() && game.hasWon()) {
+			long duration = game.getDuration();
+			ranking.append(new GameRankingEntry(this.name, level, duration, game.hasWon()));
+		}
+	} 
+	
+	@SuppressWarnings("serial")
+	public class GameException extends Exception{
+		public GameException(String message) {
+			super(message); 
 			
 		}
-		private void allScores() {
-			ranking.getAllEntries();
-			return null;
-		}g
-	} 
+
+		
+	}
+	
 }

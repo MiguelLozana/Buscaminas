@@ -8,6 +8,8 @@ import uo.mp.util.check.ArgumentChecks;
 public class Game {
 	private Board board;
     private GameInteractor interactor;
+    private long startTime;
+    private long endTime;
     /**
      * Creates the game given the board
      * @param board a board
@@ -31,6 +33,7 @@ public class Game {
 	 * Starts the game
 	 */
 	public void play() {
+		this.startTime = System.currentTimeMillis();
 		interactor.showReadyToStart();
         board.uncoverWelcomeArea();
         long startTime = System.currentTimeMillis();
@@ -42,7 +45,7 @@ public class Game {
        
             GameMove move = interactor.askMove(board.getNumberOfRows(), board.getNumberOfColumns());
             executeMove(move);
-            
+            this.endTime = System.currentTimeMillis();
         }
         
         long finalTime = (System.currentTimeMillis() - startTime) / 1000;
@@ -67,4 +70,11 @@ public class Game {
             case 'u' -> board.unflag(row, col);
         }
     }
+	public boolean hasWon() {
+		return this.board.isGameWon();
+	}
+	
+	public long getDuration() {
+	    return (endTime - startTime) / 1000;
+	}
 }
