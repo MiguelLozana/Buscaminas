@@ -1,13 +1,19 @@
-# Ignorar configuración de Workspace de Eclipse
+# --- Eclipse ---
 .metadata/
 .recommenders/
 RemoteSystemsTempFiles/
 .settings/
+.classpath
+.project
 
-# Ignorar archivos compilados (el código traducido que no escribes tú)
+# --- Compilados (Output) ---
 bin/
 *.class
 
-# Ignorar archivos temporales de Windows
+# --- Sistema Operativo ---
 Thumbs.db
 desktop.ini
+.DS_Store
+
+# --- Otros ---
+*.log
