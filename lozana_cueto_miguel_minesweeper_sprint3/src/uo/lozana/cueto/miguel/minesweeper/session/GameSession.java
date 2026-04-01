@@ -3,7 +3,6 @@ package uo.lozana.cueto.miguel.minesweeper.session;
 
 import uo.mp.minesweeper.util.log.SimpleLogger;
 
-
 import uo.lozana.cueto.miguel.minesweeper.game.Game;
 import uo.lozana.cueto.miguel.minesweeper.game.GameInteractor;
 import uo.lozana.cueto.miguel.minesweeper.game.board.Board;
@@ -20,6 +19,9 @@ public class GameSession {
 	private GameRanking ranking;
 	private String name; 
 	
+	public GameSession() {
+		// Nothing here by design
+	}
 	
 	public GameSession(GameInteractor gameInteractor, SessionInteractor sesion, SimpleLogger logger, GameRanking ranking) {
 		setGameInteractor(gameInteractor);
@@ -81,21 +83,16 @@ public class GameSession {
 	
 
 	private void handleOption(int option) throws GameException {
-		switch (option) {
+		switch (option) { 
 		case 1 -> playGame();
-		case 2 -> showAllRanking();
-		case 3 -> showMyRanking();
+		case 2 -> sesion.showRanking(ranking.getAllEntries());
+		case 3 -> 	sesion. showPersonalRanking(ranking.getEntriesForUsername(name));
 		default -> throw new GameException(INVALID_OPTION_MESSAGE);
 		};
 		
 	}
 	
-	private void showAllRanking() {
-		sesion.showRanking(ranking.getAllEntries());
-	}
-	private void showMyRanking() {
-		sesion.showRanking(ranking.getEntriesForUsername(name));
-	}
+	
 	
 	private void playGame() {
 		
@@ -127,3 +124,53 @@ public class GameSession {
 	}
 	
 }
+//FALTA:
+//*DOCCUEMTNAR
+/*test
+ *e xceptiones
+ *En GameRankingEntry (Errores Críticos):
+
+Constructor vacío: El constructor no asigna los parámetros (userName, level, duration, hasWon) a los atributos de la clase; el objeto se crea sin datos.
+
+Atributo de fecha: No se almacena la fecha en un atributo en el constructor. El método getDate() genera una fecha nueva (now()) cada vez que se llama, en lugar de devolver el momento en que terminó la partida.
+
+Error de formato en toString: El String.format tiene un error de concordancia entre los marcadores %s y los argumentos pasados (falta el argumento para el nombre de usuario tras el literal "User:").
+
+En GameSession:
+
+Restricción de líneas: El método run() excede las 7 líneas de código permitidas (tiene 9 líneas de lógica).
+
+Ubicación de GameException: Está definida como clase interna; debe ser una clase independiente en su propio archivo.
+
+En ConsoleSessionInteractor (Interacción):
+
+Método incompleto: doYouWantToRegisterYourScore() siempre devuelve false y no pregunta al usuario.
+
+Formato de Ranking: Los métodos showRanking y showPersonalRanking no usan formato tabular (columnas alineadas); solo imprimen el toString.
+
+Privacidad en Ranking: showPersonalRanking no oculta la columna del nombre del usuario (debería omitirla al ser el usuario de la sesión).
+
+Validación de askNextOption: El rango de opciones (0 a 3) no coincide con las 4 acciones requeridas (Jugar, Ranking Total, Ranking Propio, Salir).
+
+Entrada de Nivel: askGameLevel espera que el usuario escriba exactamente "FACIL", "MEDIANO" o "DIFICIL" en lugar de usar un sistema de selección numérica o más robusto, y lanza RuntimeException si falla.
+
+Prompts ausentes: askUserName no muestra un mensaje en pantalla solicitando el nombre antes de leer la entrada.
+
+Otros:
+
+Documentación y Test: Falta la documentación Javadoc y los escenarios de prueba unitaria para GameRanking mencionados en las instrucciones.
+
+Diagramas: Faltan los archivos PNG en la carpeta /uml.
+ *
+ *
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * /
+ */

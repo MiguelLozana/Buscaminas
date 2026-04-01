@@ -1,13 +1,15 @@
 package uo.lozana.cueto.miguel.minesweeper;
 
-import uo.lozana.cueto.miguel.minesweeper.console.ConsoleGameInteractor;
-import uo.lozana.cueto.miguel.minesweeper.game.Game;
-import uo.lozana.cueto.miguel.minesweeper.game.board.Board;
 
+import uo.lozana.cueto.miguel.minesweeper.console.ConsoleGameInteractor;
+import uo.lozana.cueto.miguel.minesweeper.console.ConsoleSessionInteractor;
+import uo.lozana.cueto.miguel.minesweeper.ranking.GameRanking;
+import uo.lozana.cueto.miguel.minesweeper.session.GameSession;
+import uo.mp.minesweeper.util.log.BasicSimpleLogger;
 
 public class Main {
 
-	private Game game;
+	private GameSession session;
 
 	public static void main(String[] args) {
 		new Main()
@@ -16,18 +18,16 @@ public class Main {
 	}
 
 	private Main configure() {
-		Board board = new Board(
-				9 /*cols*/, 
-				9 /*rows*/, 
-				12.0 /*% of mines*/
-			);
-		game = new Game( board );
-		game.setInteractor( new ConsoleGameInteractor() );
+		session = new GameSession();
+		session.setSessionInteractor( new ConsoleSessionInteractor() );
+		session.setGameInteractor( new ConsoleGameInteractor() );
+		session.setLogger( new BasicSimpleLogger() );
+		session.setGameRanking( new GameRanking() );
 		return this;
 	}
 
 	private void run() {
-		game.play();
+		session.run();
 	}
 
 }

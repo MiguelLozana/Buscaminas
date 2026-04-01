@@ -39,7 +39,7 @@ public class ConsoleSessionInteractor implements  SessionInteractor{
 		do {
 			try {
 				name = Console.readString();
-				validName = IsValidName(name);
+				validName = isValidName(name);
 			}catch(Exception e) {
 				System.out.print("invalid name, try again, only lowercase ");
 			}
@@ -51,12 +51,12 @@ public class ConsoleSessionInteractor implements  SessionInteractor{
 	public int askNextOption() {
 		showMenu();
 		int option = -1;
-	    while (option < 1 || option > 4) {
+	    while (option < 0 || option > 3) {
 	        try {
 	             option = Console.readInt("Select your option");
 	        }
 	        catch (Exception e) {
-	            System.out.println("Incorrect option, type only a number (1 to 4)");
+	            System.out.println("Incorrect option, type only a number (0 to 3)");
 	        }
 	    }
 	    return option;
@@ -71,42 +71,44 @@ public class ConsoleSessionInteractor implements  SessionInteractor{
 
 	@Override
 	public void showRanking(List<GameRankingEntry> ranking) {
-		// TODO Auto-generated method stub
+		for (GameRankingEntry entry: ranking) {
+			System.out.println(entry);
+		}
 		
 	}
 
 	@Override
 	public void showPersonalRanking(List<GameRankingEntry> ranking) {
-		// TODO Auto-generated method stub
+		showRanking(ranking);
 		
 	}
 
 	@Override
 	public void showGoodBye() {
-		// TODO Auto-generated method stub
+		System.out.println("Have a nice day!! See you soon :) ");
 		
 	}
 
 	@Override
 	public void showErrorMessage(String message) {
-		// TODO Auto-generated method stub
+		System.out.println("Error: " +message);
 		
 	}
 
 	@Override
 	public void showFatalErrorMessage(String message) {
-		// TODO Auto-generated method stub
-		
+		System.out.println("FATAL Error: " +message);
+		System.out.println("Progam is not able to continue");
 	}
 	
-	private boolean IsValidName(String name) {
-		ArgumentChecks.isNotBlank(name);
+	private boolean isValidName(String name) {
+		ArgumentChecks.isNotBlank(name);  // if its incorrect raises an exception and try again
 		for (char c : name.toCharArray()) {
 		    if (c < 'a' || c > 'z') {
 		        throw new RuntimeException("InvalidName");
 		    }
 		}
-		return false;
+		return true;
 	}
 	private void showMenu() {
 	    System.out.println("\n==================== MENU ===================");

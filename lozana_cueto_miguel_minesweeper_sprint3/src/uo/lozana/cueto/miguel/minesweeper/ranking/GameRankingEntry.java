@@ -11,9 +11,14 @@ public class GameRankingEntry {
 	private long duration;
 	private boolean hasWon;
 	
-public GameRankingEntry(String userName, GameLevel level, long duration, boolean hasWon){
-		
+public GameRankingEntry(String userName, GameLevel level, long duration, boolean hasWon) {
+		super();
+		this.userName = userName;
+		this.level = level;
+		this.duration = duration;
+		this.hasWon = hasWon;
 	}
+
 			  
 			
 	public String getUserName() {
@@ -36,7 +41,7 @@ public GameRankingEntry(String userName, GameLevel level, long duration, boolean
 	}
 			
 	public String toString() {
-		return String.format("User: -> Level: %s  Duration: %s s  Date: %s  %s", 
+		return String.format("User: %s -> Level: %s  Duration: %s s  Date: %s  %s", 
 				getUserName(),getLevel(),getDurationString(),getDate().toString(),getResult());
 				
 	}
