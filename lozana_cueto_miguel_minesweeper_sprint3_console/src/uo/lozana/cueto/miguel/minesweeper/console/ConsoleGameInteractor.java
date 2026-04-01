@@ -4,11 +4,13 @@ import uo.lozana.cueto.miguel.minesweeper.game.GameInteractor;
 import uo.lozana.cueto.miguel.minesweeper.game.GameMove;
 import uo.lozana.cueto.miguel.minesweeper.game.board.Board;
 import uo.lozana.cueto.miguel.minesweeper.game.board.Square;
+import uo.lozana.cueto.miguel.minesweeper.session.GameLevel;
+import uo.lozana.cueto.miguel.minesweeper.session.SessionInteractor;
 import uo.mp.util.console.Console;
 
 
 
-public class ConsoleGameInteractor implements GameInteractor{
+public class ConsoleGameInteractor implements GameInteractor, SessionInteractor {
 	private final static char[] MOVEMENTS = {'f','F','u','U','s','S'};
 	public ConsoleGameInteractor() {
 		
@@ -173,6 +175,67 @@ public class ConsoleGameInteractor implements GameInteractor{
 	        System.out.print(Ansi.grey("+---"));
 	    }
 	    System.out.println(Ansi.grey("+"));
+	}
+	
+	
+	
+	@Override
+	public GameLevel askForDifficulty() {
+		boolean validLevel = false;
+		
+		while(!validLevel) {
+			String level = Console.readString("Type your the level : ");
+			try {
+				return switch (level) {
+			    case "FACIL" -> GameLevel.FACIL;
+			    case "MEDIANO" -> GameLevel.MEDIANO;
+			    case "DIFICIL" -> GameLevel.DIFICIL;
+			    default -> throw new RuntimeException("Nivel no reconocido");
+				};
+				
+			}catch (IllegalArgumentException e) {
+				System.out.println("Incorrect name, try again");
+			}
+		}
+		return null;	
+	}
+	@Override
+	public void showDifficulties() {
+			System.out.println(" .   .   .  DIFFICULTY  .   .   . ");
+			System.out.println("FACIL (9x9 12%)");
+			System.out.println("MEDIANO (16x16 15%)");
+			System.out.println("DIFICIL (30x16 20%)");
+			System.out.println(" .   .   .   .   .   .   .   .   . ");		
+	}
+		
+	
+	@Override
+	public void showMenu() {
+		System.out.println("==================== MENU ===================");
+		System.out.println(" 1 - Play a game");
+		System.out.println(" 2 - Check all players scores");
+		System.out.println(" 3 - Chech my scores ");
+		System.out.println(" 4 - Sign out");
+		System.out.println(" --------------------------------------------");
+		
+	}
+	@Override
+	public void AskForName() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public int askForOption() {
+		int option = -1;
+	    while (option < 1 || option > 4) {
+	        try {
+	             option = Console.readInt("Select your option");
+	        }
+	        catch (Exception e) {
+	            System.out.println("Incorrect option, type only a number (1 to 4)");
+	        }
+	    }
+	    return option;
 	}
 }
 

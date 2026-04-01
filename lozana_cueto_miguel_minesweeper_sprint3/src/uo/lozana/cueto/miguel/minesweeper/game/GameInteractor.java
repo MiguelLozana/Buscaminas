@@ -1,6 +1,7 @@
 package uo.lozana.cueto.miguel.minesweeper.game;
 
 import uo.lozana.cueto.miguel.minesweeper.game.board.Board;
+import uo.lozana.cueto.miguel.minesweeper.session.GameLevel;
 
 public interface GameInteractor {
 	/**
@@ -28,9 +29,11 @@ public interface GameInteractor {
 	 */
     void showBooommm();
     /**
-     * Shoes an initial  message
+     * Shows an initial  message
      */
     void showReadyToStart();
+    
+   
     
     
     
