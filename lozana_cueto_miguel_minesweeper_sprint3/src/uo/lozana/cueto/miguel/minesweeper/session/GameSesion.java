@@ -63,7 +63,7 @@ public class GameSesion {
 		}
 	}
 	
-	
+
 	private void handleMenu() {
 		sesion.showMenu();
 		int option = sesion.askForOption();
