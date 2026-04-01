@@ -101,6 +101,6 @@ public class GameSesion {
 		private void allScores() {
 			ranking.getAllEntries();
 			return null;
-		}
+		}g
 	} 
 }
