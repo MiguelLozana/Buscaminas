@@ -79,6 +79,9 @@ public class GameSesion {
 		}
 		
 	}
+	
+
+
 	private void playGame() {
 		sesion.showDifficulties();
 		GameLevel  level = sesion.askForDifficulty();
@@ -94,6 +97,10 @@ public class GameSesion {
 		game.play();
 		if(sesion.saveScore()) {
 			
+		}
+		private void allScores() {
+			ranking.getAllEntries();
+			return null;
 		}
 	} 
 }
