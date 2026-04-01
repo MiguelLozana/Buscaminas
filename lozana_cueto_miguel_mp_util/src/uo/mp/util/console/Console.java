@@ -211,4 +211,17 @@ public final class Console {
 			throw new RuntimeException(exception);
 		}
     }
-}
+    
+    public static boolean readBoolean(String message) {
+    	
+    	while (true) {
+            String input = readString(message + " (y/n)").toLowerCase();
+            if (input.equals("y")) { 
+                return true;
+            } else if (input.equals("n")) {
+                return false;
+            }
+            System.out.println("Invalid option. Please, try again with (Y/N)");
+        }
+    }
+ }

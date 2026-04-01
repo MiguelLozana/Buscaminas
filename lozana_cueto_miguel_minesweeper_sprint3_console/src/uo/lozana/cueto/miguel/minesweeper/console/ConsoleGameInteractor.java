@@ -215,7 +215,7 @@ public class ConsoleGameInteractor implements GameInteractor, SessionInteractor 
 		System.out.println(" 1 - Play a game");
 		System.out.println(" 2 - Check all players scores");
 		System.out.println(" 3 - Chech my scores ");
-		System.out.println(" 4 - Sign out");
+		System.out.println(" 4 - Exit");
 		System.out.println(" --------------------------------------------");
 		
 	}
@@ -236,6 +236,11 @@ public class ConsoleGameInteractor implements GameInteractor, SessionInteractor 
 	        }
 	    }
 	    return option;
+	}
+	
+	@Override
+	public boolean saveScore(){
+		return Console.readBoolean("Do you want to save your score? ");
 	}
 }
 

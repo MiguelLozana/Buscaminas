@@ -6,4 +6,6 @@ public interface SessionInteractor {
 	void showDifficulties();
     void showMenu();
     void AskForName();
+	int askForOption();
+	boolean saveScore();
 }

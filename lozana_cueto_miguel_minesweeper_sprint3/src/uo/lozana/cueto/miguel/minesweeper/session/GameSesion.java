@@ -14,7 +14,6 @@ import uo.mp.util.check.ArgumentChecks;
 import uo.mp.util.console.Console;
 
 public class GameSesion {
-	private String name;
 	private GameInteractor gameInteractor;
 	private SessionInteractor sesion;
 	private Logger logger;
@@ -55,7 +54,9 @@ public class GameSesion {
 	 */
 	public void run() {
 		sesion.AskForName();
-		handleMenu();
+		while (true) {
+			handleMenu();
+		}
 	}
 	
 	
@@ -67,9 +68,9 @@ public class GameSesion {
 	private void handleOption(int option) {
 		switch (option) {
 		case 1 -> playGame();
-		case 2 -> playGame();
-		case 3 -> playGame();
-		case 4 -> playGame();
+		case 2 -> allScores();
+		case 3 -> myScores();
+		case 4 -> exit();
 		default -> throw new RuntimeException();
 		}
 		
@@ -87,5 +88,8 @@ public class GameSesion {
 		Game game = new Game(board);
 		game.setInteractor(gameInteractor);
 		game.play();
+		if(sesion.saveScore()) {
+			
+		}
 	} 
 }
