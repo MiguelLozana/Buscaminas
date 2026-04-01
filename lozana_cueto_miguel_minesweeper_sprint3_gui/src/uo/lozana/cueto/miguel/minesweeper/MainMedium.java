@@ -16,8 +16,8 @@ public class MainMedium {
 
 	private MainMedium configure() {
 		Board board = new Board(
-				16 /*cols*/, 
-				16 /*rows*/, 
+				16 /*cols*/,
+				16 /*rows*/,
 				12.0 /*% of mines*/
 			);
 

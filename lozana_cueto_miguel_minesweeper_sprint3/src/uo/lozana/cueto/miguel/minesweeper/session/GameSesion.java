@@ -20,7 +20,11 @@ public class GameSesion {
 	private GameRanking ranking;
 	
 	
-	public GameSesion() {
+	public GameSesion(GameInteractor gameInteractor, SessionInteractor sesion, Logger logger, GameRanking ranking) {
+		setGameInteractor(gameInteractor);
+		setGameRanking(ranking);
+		setLogger(logger);
+		setGameRanking(ranking);
 		run();
 	}
 	
@@ -42,7 +46,7 @@ public class GameSesion {
 		ArgumentChecks.isNotNull(logger,"The Sesion logger mus not be null");
 		this.logger = logger;
 	}
-	public void setRanking(GameRanking ranking) {
+	public void setGameRanking(GameRanking ranking) {
 		ArgumentChecks.isNotNull(ranking,"The Sesion logger mus not be null");
 		this.ranking = ranking;
 	}

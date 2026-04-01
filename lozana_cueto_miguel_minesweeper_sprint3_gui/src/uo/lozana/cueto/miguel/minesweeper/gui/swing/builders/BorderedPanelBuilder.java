@@ -18,12 +18,12 @@ public class BorderedPanelBuilder implements ContainerBuilder, ComponentBuilder 
 		builders.put(BorderLayout.NORTH, builder);
 		return this;
 	}
-	
+
 	public BorderedPanelBuilder atCenter(ComponentBuilder builder) {
 		builders.put(BorderLayout.CENTER, builder);
 		return this;
 	}
-	
+
 	public BorderedPanelBuilder atSouth(ComponentBuilder builder) {
 		builders.put(BorderLayout.SOUTH, builder);
 		return this;

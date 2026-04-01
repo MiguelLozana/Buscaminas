@@ -15,12 +15,12 @@ import javax.swing.JLabel;
 
 /**
  * Represents the structure of the mine field window. Its unique public method
- * is the constructor whose mission is to assemble the visual components of the 
+ * is the constructor whose mission is to assemble the visual components of the
  * screen.
- * 
+ *
  * This class is abstract and must be complimented, through inheritance, with
  * the methods needed from the view model.
- * 
+ *
  * @author alb
  */
 /*package*/ abstract class BoardScreen {
@@ -29,7 +29,7 @@ import javax.swing.JLabel;
 
 	protected int cols;
 	protected int rows;
-	
+
 	protected JFrame window;
 	protected JButton[][] buttons;
 	protected JLabel flagsLabel;
@@ -39,7 +39,7 @@ import javax.swing.JLabel;
 	public BoardScreen(int rows, int cols) {
 		this.rows = rows;
 		this.cols = cols;
-		
+
 		this.buttons = createSquareButtons();
 		this.flagsLabel = createFlagsLabel();
 		this.msgLabel = createMessageLabel();
@@ -50,12 +50,12 @@ import javax.swing.JLabel;
 	private JFrame createWindow() {
 		int width = max(350, cols * CELL_WIDTH + 20);
 		int height = rows * CELL_HEIGHT + 100;
-		
+
 		return frame()
 				.title("Minesweeper")
 				.position(100, 100)
 				.size( width, height )
-				.content( 
+				.content(
 					borderedPanel()
 						.atNorth(
 							gridPanel(1, 3)
@@ -86,10 +86,10 @@ import javax.swing.JLabel;
 	private JButton[][] createSquareButtons() {
 		JButton[][] res = new JButton[rows][cols];
 		MouseListener onClick = createMouseListener();
-		
+
 		for (int y = 0; y < rows; y++) {
 			for (int x = 0; x < cols; x++) {
-				res[y][x] = createSquareButton(y, x, onClick); 
+				res[y][x] = createSquareButton(y, x, onClick);
 			}
 		}
 		return res;

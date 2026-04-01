@@ -1,6 +1,7 @@
 package uo.lozana.cueto.miguel.minesweeper.gui.swing.builders;
 
 import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 public class FrameBuilder implements ComponentBuilder {
 	private String title = "";
@@ -8,7 +9,7 @@ public class FrameBuilder implements ComponentBuilder {
 	private int y = 100;
 	private int width = 460;
 	private int height = 350;
-	
+
 	private ContainerBuilder contentPaneBuilder;
 
 	public static FrameBuilder frame() {
@@ -41,7 +42,7 @@ public class FrameBuilder implements ComponentBuilder {
 	public JFrame build() {
 		JFrame frame = new JFrame();
 		frame.setTitle( title );
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		frame.setBounds(x, y, width, height);
 		frame.setContentPane( contentPaneBuilder.build() );
 		return frame;

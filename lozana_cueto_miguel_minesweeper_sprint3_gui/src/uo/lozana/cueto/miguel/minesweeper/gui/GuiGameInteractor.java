@@ -12,7 +12,7 @@ public class GuiGameInteractor implements GameInteractor {
 	 * OUTPUT
 	 * ================================
 	 */
-	
+
 
 	@Override
 	public void showGame(long elapsedTime, Board board) {
@@ -26,12 +26,12 @@ public class GuiGameInteractor implements GameInteractor {
 	public void showGameFinished() {
 		presenter.setMessage("Game Over");
 	}
-	
+
 	@Override
 	public void showCongratulations(long elapsedTime) {
 		presenter.setMessage("You win!");
 	}
-	
+
 	@Override
 	public void showBooommm() {
 		presenter.setMessage("BOOOMMMM");
@@ -48,8 +48,8 @@ public class GuiGameInteractor implements GameInteractor {
 	 */
 	/**
 	 * Ask for a valid move
-	 * @param rows number of rows of the board 
-	 * @param rows number of columns of the board 
+	 * @param rows number of rows of the board
+	 * @param rows number of columns of the board
 	 */
 	@Override
 	public GameMove askMove(int heigth, int width) {

@@ -53,7 +53,7 @@ import uo.mp.util.check.ArgumentChecks;
 	public void refreshMessage(String msg) {
 		onSwingThread(() -> msgLabel.setText( msg ) );
 	}
-	
+
 	@Override
 	@OnSwingThread
 	public void refreshButtons(ButtonState[][] states) {
@@ -73,11 +73,11 @@ import uo.mp.util.check.ArgumentChecks;
 	private void updateButton(JButton bt, ButtonState state) {
 		bt.setText( state.getText() );
 		bt.setEnabled( state.isEnabled() );
-		
+
 		if ( state.hasFlagIcon() ) {
 			bt.setIcon( Icons.FLAG );
 		} else if ( state.hasMineIcon() ) {
-			bt.setIcon( Icons.MINE ); // ?? if not setDisabledIcon has no effect	
+			bt.setIcon( Icons.MINE ); // ?? if not setDisabledIcon has no effect
 			bt.setDisabledIcon( Icons.MINE );
 		} else {
 			bt.setIcon( null );

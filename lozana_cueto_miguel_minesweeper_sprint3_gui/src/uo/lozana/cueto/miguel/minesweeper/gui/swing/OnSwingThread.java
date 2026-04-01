@@ -7,9 +7,9 @@ import java.lang.annotation.Target;
 
 @Target({ TYPE, METHOD })
 /**
- * Indicates that the type of method must be executed by the EDT 
+ * Indicates that the type of method must be executed by the EDT
  * (Event Dispatch Thread) of Swing
- * 
+ *
  * @author alb@uniovi.es
  */
 public @interface OnSwingThread {

@@ -16,8 +16,8 @@ public class MainHard {
 
 	private MainHard configure() {
 		Board board = new Board(
-				30 /*cols*/, 
-				16 /*rows*/, 
+				30 /*cols*/,
+				16 /*rows*/,
 				12.0 /*% of mines*/
 			);
 

@@ -16,8 +16,8 @@ public class MainEasy {
 
 	private MainEasy configure() {
 		Board board = new Board(
-				9 /*cols*/, 
-				9 /*rows*/, 
+				9 /*cols*/,
+				9 /*rows*/,
 				12.0 /*% of mines*/
 			);
 

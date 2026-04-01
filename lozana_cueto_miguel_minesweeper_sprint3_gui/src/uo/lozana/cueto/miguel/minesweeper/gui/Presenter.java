@@ -12,24 +12,24 @@ import uo.mp.util.check.ArgumentChecks;
  * 		Model: represented by the interactor
  * 		View: represented by BoardView object
  *  	Presenter: an instance of this class
- *  
+ *
  * It is in charge of handling all the presentation logic abstracted away from
- * the technological dependencies of the view. An object of this class 
- * keeps the logical state of the visible components on the window and the 
- * logic rules to change it. This way the view is a dumb object without logic 
- * with only the arrangement of the visual elements. This design promotes 
+ * the technological dependencies of the view. An object of this class
+ * keeps the logical state of the visible components on the window and the
+ * logic rules to change it. This way the view is a dumb object without logic
+ * with only the arrangement of the visual elements. This design promotes
  * testing of the presentation logic.
- * 
+ *
  * It also keeps the synchronization between the Game (trough the interactor)
  * and the view as they are executed on different threads.
- *  
+ *
  * @author alb
  */
 /*package*/ class Presenter {
 
 	/**
 	 * Any view must implement this interface, this avoids dependency of the
-	 * presenter on the view 
+	 * presenter on the view
 	 */
 	interface View {
 		void refreshButtons(ButtonState[][] states);
@@ -46,7 +46,7 @@ import uo.mp.util.check.ArgumentChecks;
 	 *  - Consumer: the GuiInteractor consumes them when asked by the Game
 	 */
 	private BlockingQueue<GameMove> moves = new LinkedBlockingQueue<>();
-	
+
 	private View view;
 
 	private char[][] status;
@@ -76,14 +76,14 @@ import uo.mp.util.check.ArgumentChecks;
 		int rows = status.length;
 		int cols = status[0].length;
 		ButtonState[][] res = new ButtonState[rows][cols];
-		
+
 		for (int y = 0; y < rows; y++) {
 			for (int x = 0; x < cols; x++) {
 				char square = getCurrentSquare(y, x);
 				res[y][x] = createButtonState( square );
 			}
 		}
-		
+
 		return res;
 	}
 
@@ -92,9 +92,9 @@ import uo.mp.util.check.ArgumentChecks;
 		boolean hasFlag = isFlagged(square);
 		boolean hasMine = isMine(square);
 		String text = isClosed(square) || isFlagged(square) || isMine(square)
-				? "" 
+				? ""
 				: Character.toString(square);
-		
+
 		return new ButtonState(enabled, text, hasFlag, hasMine);
 	}
 
@@ -118,7 +118,7 @@ import uo.mp.util.check.ArgumentChecks;
 	}
 
 	/**
-	 * Blocking call if the queue is empty, so the Game object will block 
+	 * Blocking call if the queue is empty, so the Game object will block
 	 * until the user clicks on a square
 	 * @return the next game move to be processed
 	 */

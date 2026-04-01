@@ -33,9 +33,9 @@ public class GridPanelBuilder implements ContainerBuilder, ComponentBuilder {
 	}
 
 	public GridPanelBuilder add(Component[][] matrix) {
-		for (int i = 0; i < matrix.length; i++) {
+		for (Component[] element : matrix) {
 			for (int j = 0; j < matrix[0].length; j++) {
-				components.add( matrix[i][j] );
+				components.add( element[j] );
 			}
 		}
 		return this;
@@ -45,15 +45,15 @@ public class GridPanelBuilder implements ContainerBuilder, ComponentBuilder {
 	public JPanel build() {
 		JPanel panel = new JPanel();
 		panel.setLayout( new GridLayout(rows, cols) );
-		
+
 		for(ComponentBuilder builder: builders) {
 			components.add( builder.build() );
 		}
-		
+
 		for(Component component: components) {
 			panel.add(component);
 		}
-		
+
 		return panel;
 	}
 
