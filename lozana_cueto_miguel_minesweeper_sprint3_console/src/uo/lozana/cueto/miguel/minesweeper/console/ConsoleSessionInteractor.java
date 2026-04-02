@@ -63,7 +63,8 @@ public class ConsoleSessionInteractor implements  SessionInteractor{
 		
 		do {
 			try {
-				name = Console.readString();
+				name = Console.readString("Typer your user name");
+				
 				validName = isValidName(name);
 			}catch (GameException e) {
 				Console.print("Invalid name, try again, only lowercase");
@@ -129,7 +130,7 @@ public class ConsoleSessionInteractor implements  SessionInteractor{
 	public void showRanking(List<GameRankingEntry> ranking) {
 		String baseFormat = "%-10s %11s %10s %8s %6s %6s\n";
 		
-		Console.print(String.format(baseFormat, "User", "Date", "Hour", "Level", "Res", "Time"));
+		Console.print(Ansi.blue(String.format(baseFormat, "User", "Date", "Hour", "Level", "Res", "Time")));
 		
 		for (GameRankingEntry entry : ranking) {
 			String result = "LOOSE";
@@ -155,7 +156,7 @@ public class ConsoleSessionInteractor implements  SessionInteractor{
 	public void showPersonalRanking(List<GameRankingEntry> ranking){
 	String baseFormat ="%11s %10s %8s %6s %6s\n";
 		
-		Console.print(String.format(baseFormat, "Date", "Hour", "Level", "Res", "Time"));
+		Console.print(Ansi.blue(String.format(baseFormat, "Date", "Hour", "Level", "Res", "Time")));
 		
 		for (GameRankingEntry entry : ranking) {
 			if( entry.getUserName().equals(user)) {
@@ -178,7 +179,7 @@ public class ConsoleSessionInteractor implements  SessionInteractor{
 	 */
 	@Override
 	public void showGoodBye() {
-		Console.println("Have a nice day!! See you soon :) ");
+		Console.println(Ansi.green("Have a nice day!! See you soon :) "));
 		
 	}
 	/**
@@ -196,8 +197,8 @@ public class ConsoleSessionInteractor implements  SessionInteractor{
 	 */
 	@Override
 	public void showFatalErrorMessage(String message) {
-		Console.println("FATAL Error: " +message);
-		Console.println("Progam is not able to continue");
+		Console.println(Ansi.red("FATAL Error: " +message));
+		Console.println(Ansi.red("Progam is not able to continue"));
 	}
 	
 	

@@ -3,6 +3,8 @@ package uo.lozana.cueto.miguel.minesweeper.ranking;
 import java.util.ArrayList;
 import java.util.List;
 
+import uo.mp.util.check.ArgumentChecks;
+
 public class GameRanking {
 	private List<GameRankingEntry> ranking;
 	
@@ -28,6 +30,7 @@ public class GameRanking {
 	
 	
 	public List<GameRankingEntry> getEntriesForUsername(String userName){
+		ArgumentChecks.isNotBlank(userName);
 		List<GameRankingEntry> userRanking = new ArrayList<GameRankingEntry>();
 		for(GameRankingEntry entry : ranking) {
 			if (entry.getUserName().equals(userName)) {

@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 import uo.lozana.cueto.miguel.minesweeper.session.GameLevel;
+import uo.mp.util.check.ArgumentChecks;
 
 public class GameRankingEntry {
 	private String userName;
@@ -14,6 +15,10 @@ public class GameRankingEntry {
 	
 public GameRankingEntry(String userName, GameLevel level, long duration, boolean hasWon) {
 		super();
+		ArgumentChecks.isNotBlank(userName);
+		ArgumentChecks.isNotNull(level);
+		ArgumentChecks.isTrue(duration>0);
+		
 		this.userName = userName;
 		this.level = level;
 		this.duration = duration;

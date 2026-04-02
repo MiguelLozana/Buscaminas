@@ -74,19 +74,31 @@ public class ConsoleGameInteractor implements GameInteractor {
 	/**
 	 * Ask for a valid move
 	 * @param rows number of rows of the board 
-	 * @param rows number of columns of the board 
+	 * @param columns number of columns of the board 
 	 */
 	public GameMove askMove(int rows, int columns) {
+		boolean validcoords = false;
+		int x = 0;
+		int y = 0;
+		char move = ' ';
+		do {
+			try {
+				y = Console.readInt("Select row");
+		        y = getValidCoordante(y, rows);
 		
-		int y = Console.readInt("Select row");
-        y = getValidCoordante(y, rows);
-        
-        
-        int x = Console.readInt("Select column");
-        x = getValidCoordante(x, columns);
-        
-        char move = getMovement();
-        
+		        x = Console.readInt("Select column");
+		        x = getValidCoordante(x, columns);
+		        
+		         move = getMovement();
+			}catch(NumberFormatException e) {
+				Console.printError("Be carfull, that is not a number");
+			}catch(ClassCastException e){
+		    	Console.printError("Be carfull, thats not character");
+		    }catch(RuntimeException e){
+		    	Console.printError("Something went wrong, lets try again");
+		    }
+		}while(!validcoords);
+					
         return new GameMove(move , y, x);
     }
 	
@@ -101,7 +113,6 @@ public class ConsoleGameInteractor implements GameInteractor {
 	 */
 	private int getValidCoordante(int currentCoord , int maxCoord) {
 		while(currentCoord<0 || currentCoord >=maxCoord) {
-			
 			currentCoord = Console.readInt(String.format(
 					"Incorrect coord, try again. The value must be between 0 and %s, both icluded.", maxCoord -1));
         }
