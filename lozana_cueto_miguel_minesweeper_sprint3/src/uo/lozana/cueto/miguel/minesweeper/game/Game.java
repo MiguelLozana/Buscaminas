@@ -36,7 +36,7 @@ public class Game {
 		this.startTime = System.currentTimeMillis();
 		interactor.showReadyToStart();
         board.uncoverWelcomeArea();
-        long startTime = System.currentTimeMillis();
+       
         
         while (!board.hasExploded() && !board.isGameWon()) {
             long elapsedTime = (System.currentTimeMillis() - startTime) / 1000;
@@ -45,10 +45,10 @@ public class Game {
        
             GameMove move = interactor.askMove(board.getNumberOfRows(), board.getNumberOfColumns());
             executeMove(move);
-            this.endTime = System.currentTimeMillis();
+            
         }
-        
-        long finalTime = (System.currentTimeMillis() - startTime) / 1000;
+        this.endTime = System.currentTimeMillis();
+        long finalTime = (endTime - startTime) / 1000;
         interactor.showGame(finalTime, board); 
 
         if (board.isGameWon()) {

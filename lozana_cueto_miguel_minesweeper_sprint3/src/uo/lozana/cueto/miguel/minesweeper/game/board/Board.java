@@ -37,13 +37,17 @@ public class Board {
 	 * @param i number of rows
 	 * @param j number of columns
 	 * @param d percentage of mines
+	 * @throws IAE if a param is invalid
 	 */
 	public Board(int i, int j, double d) {
-		
 		ArgumentChecks.isTrue(i>0,"The rows number must be bigger than 0");
+		ArgumentChecks.isTrue(i<=25,"The rows number can´t be bigger than 25");
+		
 		ArgumentChecks.isTrue(j>0,"The columns number must be bigger than 0");
+		ArgumentChecks.isTrue(j<=25,"The columns number can´t be bigger than 25");
+		
 		ArgumentChecks.isTrue(d>0,"The percentaje must be bigger than 0");
-		ArgumentChecks.isTrue(d<=100,"The percentaje can´t be bigger than 100");
+		ArgumentChecks.isTrue(d<=25,"The percentaje can´t be bigger than 25");
 		
 		
 		this.mines = (int) Math.ceil( i*j*d*0.01);

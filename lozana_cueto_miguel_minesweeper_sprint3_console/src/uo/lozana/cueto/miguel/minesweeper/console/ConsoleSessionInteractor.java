@@ -71,6 +71,7 @@ public class ConsoleSessionInteractor implements  SessionInteractor{
 				Console.print("The name could not be read, Try again.");
 			}
 		}while( !validName);
+		this.user = name;
 		return name;
 	}
 	 /**
@@ -103,6 +104,7 @@ public class ConsoleSessionInteractor implements  SessionInteractor{
 		do {
 			try { 
 				userAnswer = Console.readBoolean("Do you want to register your score? (Y/N) " );
+				isAlreadyanswered =true;
 			}catch(RuntimeException re) {
 				Console.printError("Invalid option, type (Y) for yes or (N) for no");
 			}

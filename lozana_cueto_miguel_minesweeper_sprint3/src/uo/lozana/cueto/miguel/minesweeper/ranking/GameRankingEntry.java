@@ -33,7 +33,6 @@ public GameRankingEntry(String userName, GameLevel level, long duration, boolean
 		return this.hasWon;
 	}
 	public LocalDateTime getDate() {
-		LocalDateTime date = LocalDateTime.now();	
 		return date;
 	}
 			

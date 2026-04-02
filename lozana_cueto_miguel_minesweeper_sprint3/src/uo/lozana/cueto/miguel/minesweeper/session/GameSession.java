@@ -24,6 +24,7 @@ public class GameSession {
 	}
 	
 	public GameSession(GameInteractor gameInteractor, SessionInteractor sesion, SimpleLogger logger, GameRanking ranking) {
+		
 		setGameInteractor(gameInteractor);
 		setSessionInteractor(sesion);
 		setLogger(logger);
