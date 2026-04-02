@@ -214,18 +214,24 @@ public final class Console {
 		}
     }
     
+    /**
+     * Reads a boolean from the console
+     * @param message to show
+     * @return true if 'y', false if 'n'
+     * @throws IllegalArgumentException if the input is not 'y' or 'n'
+     */
     public static boolean readBoolean(String message) {
-    	
-    	while (true) {
-            String input = readString(message + " (y/n)").toLowerCase();
-            if (input.equals("y")) { 
-                return true;
-            } else if (input.equals("n")) {
-                return false;
-            }
-            System.out.println("Invalid option. Please, try again with (Y/N)");
+        String input = readString(message + " (y/n)").toLowerCase();
+        if (input.equals("y")) {
+            return true;
+        } else if (input.equals("n")) {
+            return false;
+        } else {
+            throw new IllegalArgumentException("Invalid input: expected 'y' or 'n', but got '" + input + "'");
         }
     }
+    	
+    
     public static <T> void printList(List<T> elements) {
 		for (T element:elements) {
 			System.out.println(element);		

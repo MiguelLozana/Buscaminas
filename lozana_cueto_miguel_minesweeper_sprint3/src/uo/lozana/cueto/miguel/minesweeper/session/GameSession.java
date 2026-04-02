@@ -30,7 +30,22 @@ public class GameSession {
 		setGameRanking(ranking);
 	}
 	
+	/*===========================================
+	 * 				RUN
+	 * ========================================
+	 */
 	
+	
+	public void run() {
+	    try {
+	    	this.name = sesion.askUserName(); 
+            mainLoop();
+            sesion.showGoodBye();
+	    } catch (RuntimeException e) {       
+	        logger.log(e);                   
+	        sesion.showFatalErrorMessage("Error interno irrecuperable.");
+	    }
+	}
 	/*===========================================
 	 * 				SETERS
 	 * ========================================
@@ -55,19 +70,10 @@ public class GameSession {
 
 
 	/*===========================================
-	 * 				ORHER METOTHS
+	 * 				PRIVATE HELPING 
 	 * ========================================
 	 */
-	public void run() {
-	    try {
-	    	this.name = sesion.askUserName(); 
-            mainLoop();
-            sesion.showGoodBye();
-	    } catch (RuntimeException e) {       
-	        logger.log(e);                   
-	        sesion.showFatalErrorMessage("Error interno irrecuperable.");
-	    }
-	}
+	
 	
 	
 	private void mainLoop() {
@@ -86,7 +92,7 @@ public class GameSession {
 		switch (option) { 
 		case 1 -> playGame();
 		case 2 -> sesion.showRanking(ranking.getAllEntries());
-		case 3 -> 	sesion. showPersonalRanking(ranking.getEntriesForUsername(name));
+		case 3 -> sesion.showPersonalRanking(ranking.getEntriesForUsername(this.name));
 		default -> throw new GameException(INVALID_OPTION_MESSAGE);
 		};
 		
@@ -113,15 +119,7 @@ public class GameSession {
 		}
 	} 
 	
-	@SuppressWarnings("serial")
-	public class GameException extends Exception{
-		public GameException(String message) {
-			super(message); 
-			
-		}
-
-		
-	}
+	
 	
 }
 //FALTA:

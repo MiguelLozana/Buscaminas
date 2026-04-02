@@ -1,129 +1,234 @@
 package uo.lozana.cueto.miguel.minesweeper.console;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
 import uo.lozana.cueto.miguel.minesweeper.ranking.GameRankingEntry;
 import uo.lozana.cueto.miguel.minesweeper.session.GameLevel;
 import uo.lozana.cueto.miguel.minesweeper.session.SessionInteractor;
+import uo.lozana.cueto.miguel.minesweeper.session.GameException;
 import uo.mp.util.check.ArgumentChecks;
 import uo.mp.util.console.Console;
 
 public class ConsoleSessionInteractor implements  SessionInteractor{
-
+	private String user;
+	public ConsoleSessionInteractor() {
+	}
+	/* ===================================
+	 * 
+	 *     INTPUT
+	 * 
+	 ====================================*/
+	
+	/**
+	 * Ask the user the level/difficulty 
+	 * @return the response a a GameLevel
+	 */
 	@Override
 	public GameLevel askGameLevel() {
-		showDifficulties();
-		boolean validLevel = false;
+		boolean isValidLevel = false;
+		GameLevel selected = null;
 		
-		while(!validLevel) {
+		
+		do {
+			showDifficulties();
 			String level = Console.readString("Type your the level : ");
+			
+			
 			try {
-				return switch (level) {
-			    case "FACIL" -> GameLevel.FACIL;
-			    case "MEDIANO" -> GameLevel.MEDIANO;
-			    case "DIFICIL" -> GameLevel.DIFICIL;
-			    default -> throw new RuntimeException("Nivel no reconocido");
-				};
-				
-			}catch (IllegalArgumentException e) {
-				System.out.println("Incorrect name, try again");
+				 selected = switch (level) {
+			    	case "FACIL" -> GameLevel.FACIL;
+			    	case "MEDIANO" -> GameLevel.MEDIANO;
+			    	case "DIFICIL" -> GameLevel.DIFICIL;
+			    	default -> throw new GameException("SS");
+			    };
+			    isValidLevel = true;
+			}catch(GameException e) {
+				Console.println("Invalid option, FACIL / MEDIANO / DIFICIL");
 			}
-		}
-		return null;	
+			
+			
+		}while(!isValidLevel);
+			return selected;
 	}
+	/**
+	 * Ask the user the userName. It cannot be blank
+	 * @return the valid userName
+	 */
 	@Override
 	public String askUserName() {
 		String name ="";
 		boolean validName = false;
+		
 		do {
 			try {
 				name = Console.readString();
 				validName = isValidName(name);
-			}catch(Exception e) {
-				System.out.print("invalid name, try again, only lowercase ");
+			}catch (GameException e) {
+				Console.print("Invalid name, try again, only lowercase");
+			}catch(RuntimeException e) {
+				Console.print("The name could not be read, Try again.");
 			}
 		}while( !validName);
 		return name;
 	}
-
+	 /**
+     * Ask the user to choose an option in the menu. 0 = exist; >0 valid menu options
+     * @return the number which represent the menu option 
+     */
 	@Override
 	public int askNextOption() {
-		showMenu();
 		int option = -1;
-	    while (option < 0 || option > 3) {
+		do {
+			showMenu();
 	        try {
 	             option = Console.readInt("Select your option");
 	        }
-	        catch (Exception e) {
-	            System.out.println("Incorrect option, type only a number (0 to 3)");
+	        catch (RuntimeException e) {
+	            Console.println("Incorrect option, type only a number (0 to 3)");
 	        }
-	    }
+	    }while (option < 0 || option > 3);
 	    return option;
 	}
 	
-
+	/**
+	 * Ask the user to decide to register the score
+	 * @return true if decide to register, false otherwise
+	 */
 	@Override
 	public boolean doYouWantToRegisterYourScore() {
-		// TODO Auto-generated method stub
-		return false;
+		boolean isAlreadyanswered = false;
+		boolean userAnswer = false;
+		do {
+			try { 
+				userAnswer = Console.readBoolean("Do you want to register your score? (Y/N) " );
+			}catch(RuntimeException re) {
+				Console.printError("Invalid option, type (Y) for yes or (N) for no");
+			}
+		}while(!isAlreadyanswered);
+		return userAnswer;
+			
+			
+		
 	}
-
+	/* ===================================
+	 * 
+	 *     OUTPUT
+	 * 
+	 ====================================*/
+	
+	/**
+	 * Shows all the elements of the list provided
+	 * @param ranking the list to show
+	 */
+	
 	@Override
 	public void showRanking(List<GameRankingEntry> ranking) {
-		for (GameRankingEntry entry: ranking) {
-			System.out.println(entry);
+		String baseFormat = "%-10s %11s %10s %8s %6s %6s\n";
+		
+		Console.print(String.format(baseFormat, "User", "Date", "Hour", "Level", "Res", "Time"));
+		
+		for (GameRankingEntry entry : ranking) {
+			String result = "LOOSE";
+			
+			String user = entry.getUserName();
+			String date = entry.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+			String hour = entry.getDate().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+			String level= entry.getLevel().toString();
+			if (entry.hasWon()) {
+				 result = "WIN";
+			}
+			String time = "" + entry.getDuration();
+			
+			Console.print(String.format(baseFormat,user,date,hour,level,result,time)); 
 		}
 		
 	}
-
+	/**
+	 * Shows only the user ranking form the list provided
+	 * @param ranking the list to show
+	 */
 	@Override
-	public void showPersonalRanking(List<GameRankingEntry> ranking) {
-		showRanking(ranking);
+	public void showPersonalRanking(List<GameRankingEntry> ranking){
+	String baseFormat ="%11s %10s %8s %6s %6s\n";
 		
+		Console.print(String.format(baseFormat, "Date", "Hour", "Level", "Res", "Time"));
+		
+		for (GameRankingEntry entry : ranking) {
+			if( entry.getUserName().equals(user)) {
+				String result = "LOOSE";
+				
+				String date = entry.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+				String hour = entry.getDate().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+				String level= entry.getLevel().toString();
+				if (entry.hasWon()) {
+				result = "WIN";
+				}
+				String time = "" + entry.getDuration();
+			
+				Console.print(String.format(baseFormat,date,hour,level,result,time)); 
+			}
+		}
 	}
-
+	/**
+	 * Shows the GoodBy message
+	 */
 	@Override
 	public void showGoodBye() {
-		System.out.println("Have a nice day!! See you soon :) ");
+		Console.println("Have a nice day!! See you soon :) ");
 		
 	}
-
+	/**
+	 * Shows the error message to the user
+	 * @param message to show the user
+	 */
 	@Override
 	public void showErrorMessage(String message) {
-		System.out.println("Error: " +message);
+		Console.println("Error: " +message);
 		
 	}
-
+	/**
+	 * Shows the fatal error message to the user, the program will not continue
+	 * @param message to show the user
+	 */
 	@Override
 	public void showFatalErrorMessage(String message) {
-		System.out.println("FATAL Error: " +message);
-		System.out.println("Progam is not able to continue");
+		Console.println("FATAL Error: " +message);
+		Console.println("Progam is not able to continue");
 	}
 	
-	private boolean isValidName(String name) {
-		ArgumentChecks.isNotBlank(name);  // if its incorrect raises an exception and try again
+	
+	
+	/* ===================================
+	 * 
+	 *     PRIVATE HELPING METHODS
+	 * 
+	 ====================================*/
+	
+	private boolean isValidName(String name) throws GameException {
+		ArgumentChecks.isNotBlank(name);  // if its incorrect raises an IllegalArgumentException
 		for (char c : name.toCharArray()) {
 		    if (c < 'a' || c > 'z') {
-		        throw new RuntimeException("InvalidName");
+		        throw new GameException("InvalidName");
 		    }
 		}
 		return true;
 	}
 	private void showMenu() {
-	    System.out.println("\n==================== MENU ===================");
-	    System.out.println(" 1 - Play a game");
-	    System.out.println(" 2 - Check all players scores");
-	    System.out.println(" 3 - Check my scores ");
-	    System.out.println(" 0 - Exit"); // Cambiado a 0 según el PDF
-	    System.out.println(" --------------------------------------------");
+	   Console.println("\n==================== MENU ===================");
+	   Console.println(" 0 - Exit");
+	   Console.println(" 1 - Play a game");
+	   Console.println(" 2 - Check all players scores");
+	   Console.println(" 3 - Check my scores ");
+	   Console.println(" --------------------------------------------");
 	}
 
 	private void showDifficulties() {
-	    System.out.println("\n .   .   .  DIFFICULTY  .   .   . ");
-	    System.out.println("1. FACIL (9x9 12%)");
-	    System.out.println("2. MEDIANO (16x16 15%)");
-	    System.out.println("3. DIFICIL (30x16 20%)");
-	    System.out.println(" .   .   .   .   .   .   .   .   . ");		
+	    Console.println("\n .   .   .  DIFFICULTY  .   .   . ");
+	    Console.println("1. FACIL (9x9 12%)");
+	    Console.println("2. MEDIANO (16x16 15%)");
+	    Console.println("3. DIFICIL (30x16 20%)");
+	    Console.println(" .   .   .   .   .   .   .   .   . ");		
 	}
 }

@@ -5,6 +5,11 @@ import java.util.List;
 import uo.lozana.cueto.miguel.minesweeper.ranking.GameRankingEntry;
 
 public interface SessionInteractor {
+	/* ===================================
+	 * 
+	 *     INTPUT
+	 * 
+	 ====================================*/
 	
 	/**
 	 * Ask the user the level/difficulty 
@@ -26,6 +31,15 @@ public interface SessionInteractor {
 	 * @return true if decide to register, false otherwise
 	 */
 	boolean doYouWantToRegisterYourScore();
+	
+	
+	/* ===================================
+	 * 
+	 *     OUTPUT
+	 * 
+	 ====================================*/
+	
+	
 	/**
 	 * Shows all the elements of the list provided
 	 * @param ranking the list to show

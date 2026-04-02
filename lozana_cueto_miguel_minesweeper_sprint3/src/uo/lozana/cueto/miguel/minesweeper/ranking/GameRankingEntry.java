@@ -10,6 +10,7 @@ public class GameRankingEntry {
 	private GameLevel level;
 	private long duration;
 	private boolean hasWon;
+	private LocalDateTime date;
 	
 public GameRankingEntry(String userName, GameLevel level, long duration, boolean hasWon) {
 		super();
@@ -17,6 +18,7 @@ public GameRankingEntry(String userName, GameLevel level, long duration, boolean
 		this.level = level;
 		this.duration = duration;
 		this.hasWon = hasWon;
+		date = LocalDateTime.now();
 	}
 
 			  
@@ -77,6 +79,7 @@ public GameRankingEntry(String userName, GameLevel level, long duration, boolean
 		GameRankingEntry other = (GameRankingEntry) obj;
 		return level == other.level && Objects.equals(userName, other.userName);
 	}
+	
 	
 	
 			
