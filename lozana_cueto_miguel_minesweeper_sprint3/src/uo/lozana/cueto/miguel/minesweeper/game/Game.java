@@ -4,12 +4,16 @@ import uo.lozana.cueto.miguel.minesweeper.game.board.Board;
 import uo.mp.util.check.ArgumentChecks;
 
 
-
 public class Game {
 	private Board board;
     private GameInteractor interactor;
     private long startTime;
     private long endTime;
+    
+	/*============================================
+	 *        CONSTRUCTORS
+	 * ===========================================
+	 */
     /**
      * Creates the game given the board
      * @param board a board
@@ -24,41 +28,55 @@ public class Game {
 	public Game() {
 		this.board = new Board();
 	}
+	/*============================================
+	 *        SETTERS AND GETTERS
+	 * ===========================================
+	 */
 	public void setInteractor(GameInteractor consoleGameInteractor) {
 		ArgumentChecks.isNotNull(consoleGameInteractor, "The interactor cannot be null");
 		this.interactor = consoleGameInteractor;
 	}
+	public boolean hasWon() {
+		return this.board.isGameWon();
+	}
 	
+	public long getDuration() {
+	    return (endTime - startTime) / 1000;
+	}
+	
+	/*============================================
+	 *       PLAY
+	 * ===========================================
+	 */
 	/**
 	 * Starts the game
 	 */
 	public void play() {
+		// Staring game configuration 
 		this.startTime = System.currentTimeMillis();
 		interactor.showReadyToStart();
         board.uncoverWelcomeArea();
        
-        
+        // manages the turns of the game until is ended
         while (!board.hasExploded() && !board.isGameWon()) {
-            long elapsedTime = (System.currentTimeMillis() - startTime) / 1000;
-            
-            interactor.showGame(elapsedTime, board);
-       
-            GameMove move = interactor.askMove(board.getNumberOfRows(), board.getNumberOfColumns());
-            executeMove(move);
+        	playTurn();
             
         }
+        // stops recording time
         this.endTime = System.currentTimeMillis();
         long finalTime = (endTime - startTime) / 1000;
+        // update the board and final message
         interactor.showGame(finalTime, board); 
-
-        if (board.isGameWon()) {
-            interactor.showCongratulations(finalTime);
-        } else {
-            interactor.showBooommm();
-        }
-        interactor.showGameFinished();
-    }
+        endMessage(finalTime);
         
+    }
+	
+	
+	
+	/*============================================
+	 *        PRIVATE HELPING METHODS
+	 * ===========================================
+	 */
 	private void executeMove(GameMove move) {
         char op = move.getOperation();
         int row = move.getRow();
@@ -70,11 +88,26 @@ public class Game {
             case 'u' -> board.unflag(row, col);
         }
     }
-	public boolean hasWon() {
-		return this.board.isGameWon();
+	/*
+	 * Execute a turn in the game
+	 */
+	private void playTurn() {
+		long elapsedTime = (System.currentTimeMillis() - startTime) / 1000;
+        
+        interactor.showGame(elapsedTime, board);
+   
+        GameMove move = interactor.askMove(board.getNumberOfRows(), board.getNumberOfColumns());
+        executeMove(move);
 	}
-	
-	public long getDuration() {
-	    return (endTime - startTime) / 1000;
+	/*
+	 * Select the message to show in the end of the game
+	 */
+	private void endMessage(long finalTime) {
+		if (board.isGameWon()) {
+            interactor.showCongratulations(finalTime);
+        } else {
+            interactor.showBooommm();
+        }
+        interactor.showGameFinished();
 	}
 }
