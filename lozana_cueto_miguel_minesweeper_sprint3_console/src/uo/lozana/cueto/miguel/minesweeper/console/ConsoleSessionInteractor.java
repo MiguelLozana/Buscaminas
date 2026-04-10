@@ -41,7 +41,7 @@ public class ConsoleSessionInteractor implements  SessionInteractor{
 			    	case "FACIL" -> GameLevel.FACIL;
 			    	case "MEDIANO" -> GameLevel.MEDIANO;
 			    	case "DIFICIL" -> GameLevel.DIFICIL;
-			    	default -> throw new GameException("SS");
+			    	default -> throw new GameException("Wrong Level Selected");
 			    };
 			    isValidLevel = true;
 			}catch(GameException e) {
