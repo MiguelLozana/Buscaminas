@@ -88,7 +88,7 @@ public class ConsoleSessionInteractor implements  SessionInteractor{
 	             option = Console.readInt("Select your option");
 	        }
 	        catch (RuntimeException e) {
-	            Console.println("Incorrect option, type only a number (0 to 3)");
+	            Console.println("Incorrect option, type only a number (0 to 5 included)");
 	        }
 	    }while (option < 0 || option > 3);
 	    return option;
@@ -224,6 +224,8 @@ public class ConsoleSessionInteractor implements  SessionInteractor{
 	   Console.println(" 1 - Play a game");
 	   Console.println(" 2 - Check all players scores");
 	   Console.println(" 3 - Check my scores ");
+	   Console.println(" 4 - Export results ");
+	   Console.println(" 5 - Import results ");
 	   Console.println(" --------------------------------------------");
 	}
 
@@ -233,5 +235,11 @@ public class ConsoleSessionInteractor implements  SessionInteractor{
 	    Console.println("2. MEDIANO (16x16 15%)");
 	    Console.println("3. DIFICIL (30x16 20%)");
 	    Console.println(" .   .   .   .   .   .   .   .   . ");		
+	}
+
+	@Override
+	public String askFileName() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

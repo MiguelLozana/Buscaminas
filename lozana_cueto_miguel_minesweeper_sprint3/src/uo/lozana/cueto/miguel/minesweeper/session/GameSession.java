@@ -3,6 +3,8 @@ package uo.lozana.cueto.miguel.minesweeper.session;
 
 import uo.mp.minesweeper.util.log.SimpleLogger;
 
+import java.time.LocalDateTime;
+
 import uo.lozana.cueto.miguel.minesweeper.game.Game;
 import uo.lozana.cueto.miguel.minesweeper.game.GameInteractor;
 import uo.lozana.cueto.miguel.minesweeper.game.board.Board;
@@ -19,9 +21,7 @@ public class GameSession {
 	private GameRanking ranking;
 	private String name; 
 	
-	public GameSession() {
-		// Nothing here by design
-	}
+	
 	
 	public GameSession(GameInteractor gameInteractor, SessionInteractor sesion, SimpleLogger logger, GameRanking ranking) {
 		
@@ -30,21 +30,29 @@ public class GameSession {
 		setLogger(logger);
 		setGameRanking(ranking);
 	}
+	public GameSession() {
+		// TODO Auto-generated constructor stub
+	}
 	
 	/*===========================================
 	 * 				RUN
 	 * ========================================
 	 */
 	
+
 	
+
 	public void run() {
+		
+
 	    try {
 	    	this.name = sesion.askUserName(); 
             mainLoop();
             sesion.showGoodBye();
-	    } catch (RuntimeException e) {       
-	        logger.log(e);                   
-	        sesion.showFatalErrorMessage("Error interno irrecuperable.");
+	    } catch (RuntimeException e) {   
+	    	sesion.showFatalErrorMessage("Error interno irrecuperable.");
+	        logger.log(e);                  
+	        
 	    }
 	}
 	/*===========================================
@@ -68,6 +76,9 @@ public class GameSession {
 		ArgumentChecks.isNotNull(ranking,"The Sesion logger mus not be null");
 		this.ranking = ranking;
 	}
+
+		
+
 
 
 	/*===========================================
@@ -94,31 +105,36 @@ public class GameSession {
 		case 1 -> playGame();
 		case 2 -> sesion.showRanking(ranking.getAllEntries());
 		case 3 -> sesion.showPersonalRanking(ranking.getEntriesForUsername(this.name));
+		case 4 -> ranking.exportRanking(ranking.getFilename());
+		case 5 -> ranking.importRanking();
 		default -> throw new GameException(INVALID_OPTION_MESSAGE);
 		};
 		
 	}
 	
 	
-	
+
 	private void playGame() {
 		
 		GameLevel  level = sesion.askGameLevel();
-	
 		Board board = switch (level) {
-	    case  FACIL -> new Board(9,9,12);
-	    case MEDIANO-> new Board(16,16,15);
-	    case DIFICIL-> new Board(30,16,20);
-	    default -> throw new RuntimeException("Nivel no reconocido");
-		}; 
+		    case  FACIL -> new Board(9,9,12);
+		    case MEDIANO-> new Board(16,16,15);
+		    case DIFICIL-> new Board(30,16,20);
+		    default -> throw new RuntimeException("Nivel no reconocido");
+			}; 
 		Game game = new Game(board);
 		game.setInteractor(gameInteractor);
 		game.play();
 		if(sesion.doYouWantToRegisterYourScore() && game.hasWon()) {
 			long duration = game.getDuration();
-			ranking.append(new GameRankingEntry(this.name, level, duration, game.hasWon()));
+			LocalDateTime date = LocalDateTime.now();
+			ranking.append(new GameRankingEntry(this.name,date, level, duration, game.hasWon()));
+			
 		}
-	} 
+	}
+
+	
 	
 	
 	

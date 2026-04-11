@@ -64,5 +64,8 @@ public interface SessionInteractor {
 	 * @param message to show the user
 	 */
 	void showFatalErrorMessage(String message);
+	String askFileName();
+	
+	
 
 }

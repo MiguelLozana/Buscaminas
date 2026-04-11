@@ -1,29 +1,40 @@
 package uo.lozana.cueto.miguel.minesweeper.ranking;
 
+import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Objects;
 
 import uo.lozana.cueto.miguel.minesweeper.session.GameLevel;
 import uo.mp.util.check.ArgumentChecks;
 
-public class GameRankingEntry {
+public class GameRankingEntry implements Serializable {
+	
+	
+	/**
+	 * 
+	 */
+	
 	private String userName;
 	private GameLevel level;
 	private long duration;
 	private boolean hasWon;
-	private LocalDateTime date;
+	private LocalDateTime completeDate;
 	
-public GameRankingEntry(String userName, GameLevel level, long duration, boolean hasWon) {
+public GameRankingEntry(String userName,LocalDateTime completeDate, GameLevel level, long duration, boolean hasWon) {
 		super();
+		
 		ArgumentChecks.isNotBlank(userName);
 		ArgumentChecks.isNotNull(level);
 		ArgumentChecks.isTrue(duration>0);
+		
 		
 		this.userName = userName;
 		this.level = level;
 		this.duration = duration;
 		this.hasWon = hasWon;
-		date = LocalDateTime.now();
+		this.completeDate = completeDate;
 	}
 
 			  
@@ -37,8 +48,11 @@ public GameRankingEntry(String userName, GameLevel level, long duration, boolean
 	public boolean hasWon() {
 		return this.hasWon;
 	}
-	public LocalDateTime getDate() {
-		return date;
+	public LocalDate getDate() {
+		return this.completeDate.toLocalDate();
+	}
+	public LocalTime getTime() {
+		return this.completeDate.toLocalTime();
 	}
 			
 	public GameLevel getLevel() {
@@ -83,6 +97,16 @@ public GameRankingEntry(String userName, GameLevel level, long duration, boolean
 		GameRankingEntry other = (GameRankingEntry) obj;
 		return level == other.level && Objects.equals(userName, other.userName);
 	}
+
+
+	public String serialize() {
+		return String.format("%s;%s;%s;%s;%s;%s ", 
+				getUserName(),getDate(),getTime(),getLevel(),getResult(),getDuration());
+	}
+	
+
+
+	
 	
 	
 	

@@ -7,6 +7,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/lozana_cueto_miguel_minesweeper_sprint3"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/lozana_cueto_miguel_mp_util"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/lozana_cueto_miguel_util"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

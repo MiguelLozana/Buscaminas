@@ -9,4 +9,5 @@ public class BasicSimpleLogger implements SimpleLogger {
 		System.err.println( "This information should go to a more sofisticated log system" );
 		ex.printStackTrace();}
 
+
 }

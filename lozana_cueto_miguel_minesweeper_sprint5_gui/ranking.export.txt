@@ -1,0 +1,7 @@
+pedro;06/04/2026;14:30:00;easy;WON;125
+maria;06/04/2026;14:35:00;medium;WON;200
+joao;06/04/2026;14:40:00;high;LOST;300
+ana;06/04/2026;14:45:00;easy;WON;100
+lucas;06/04/2026;14:50:00;medium;LOST;250
+sophia;06/04/2026;14:55:00;high;WON;350
+invalid Line Without Enough Fields
