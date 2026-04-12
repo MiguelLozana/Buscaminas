@@ -41,11 +41,11 @@ public class GameSession {
 	
 
 	
-
+	/**
+	 * Runs the session 
+	 */
 	public void run() {
-		
-
-	    try {
+	 try {
 	    	this.name = sesion.askUserName(); 
             mainLoop();
             sesion.showGoodBye();

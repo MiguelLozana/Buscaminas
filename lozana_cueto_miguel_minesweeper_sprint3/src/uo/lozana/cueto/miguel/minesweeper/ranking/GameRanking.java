@@ -22,6 +22,9 @@ public class GameRanking {
 	 * CONSTRUCTOR
 	 * ======================
 	 */
+	/** 
+	 * Instances the GameRanking the filename
+	 */
 	public GameRanking(String fileName) {
 		ranking = new ArrayList<GameRankingEntry>();
 		this.file = fileName;
@@ -33,10 +36,7 @@ public class GameRanking {
 	public String getFilename() {
 		return this.file;
 	}
-	/*========================
-	 * CONSTRUCTOR
-	 * ======================
-	 */
+	
 	
 	
 	/*========================
@@ -44,6 +44,11 @@ public class GameRanking {
 	 * LIST METHODS
 	 * 
 	 * ======================
+	 */
+	/**
+	 * Appends the gameRankingEntry given at the end of the list,
+	 *  if it is already existing, is previously removed
+	 * @param gameRankingEntry to append
 	 */
 	public void append(GameRankingEntry gameRankingEntry) {
 		int index = ranking.indexOf(gameRankingEntry);
@@ -54,15 +59,26 @@ public class GameRanking {
 	}
 	
 	
-	
+	/**
+	 * Gets a sorted list of the ranking. 
+	 * More difficult, with less duration ancient GameRanklingEntries goes first
+	 * @return sorted list
+	 */
 	public List<GameRankingEntry> getAllEntries(){
-		return new ArrayList<>(ranking);
+		
+		return sortList();
 	}
-
+	
+	/**
+	 * Gets a sorted list of the ranking o the user. 
+	 * More difficult, with less duration ancient GameRanklingEntries goes first
+	 * @return sorted user list
+	 */
 	public List<GameRankingEntry> getEntriesForUsername(String userName){
+		List<GameRankingEntry> sorted = sortList();
 		ArgumentChecks.isNotBlank(userName);
 		List<GameRankingEntry> userRanking = new ArrayList<GameRankingEntry>();
-		for(GameRankingEntry entry : ranking) {
+		for(GameRankingEntry entry : sorted) {
 			if (entry.getUserName().equals(userName)) {
 				userRanking.add(entry);
 			}
@@ -70,7 +86,34 @@ public class GameRanking {
 		return userRanking;
 	}
 	
-	
+	/*
+	 * Creates a sorted list  
+	 * More difficult, with less duration ancient GameRanklingEntries goes first
+	 */
+	private List<GameRankingEntry> sortList() {
+		List<GameRankingEntry> sorted = new ArrayList<>();
+	    GameRankingEntryComparator comparator = new GameRankingEntryComparator();
+	    
+	    for (GameRankingEntry toSort : ranking) {
+	        boolean insert = false;
+	        
+	        
+	        for (int i = 0; i < sorted.size(); i++) {
+	            
+	            if (comparator.compare(toSort, sorted.get(i)) < 0) {
+	                sorted.add(i, toSort); 
+	                insert = true;
+	                break; 
+	            }
+	        }
+	        
+	        if (!insert) {
+	            sorted.add(toSort);
+	        }
+	    }
+	   	return sorted;
+	}
+		
 	
 	/*========================
 	 * 
@@ -78,7 +121,10 @@ public class GameRanking {
 	 * 
 	 * ======================
 	 */
-	
+	/**
+	 * Saves the ranking in a file, given its name as parameter
+	 * @param filename where save the ranking
+	 */
 	public void exportRanking(String filename){
 		RankingSerialiacer serialicer = new RankingSerialiacer();
 		List<String> serializedRanking = serialicer.serialize(ranking);
@@ -97,7 +143,10 @@ public class GameRanking {
 			throw new RuntimeException();
 		}
 	}
-	
+	/**
+	 * Loads the ranking form a file, given its name as parameter
+	 * @param filename where save the ranking
+	 */
 	public void importRanking(){
 		List<String> lines = new ArrayList<>();
 	    BufferedReader reader = null;

@@ -7,8 +7,11 @@ public class RankingSerialiacer {
 	public RankingSerialiacer() {
 		
 	}
-	
-	
+	/**
+	 * Creates a list of strings form a list of gamRanking Entries
+	 * @param List to serialize
+	 * @return
+	 */
 	public List<String> serialize(List<GameRankingEntry> ranking) {
 		List<String> lines = new LinkedList<>();
         for(GameRankingEntry entry: ranking) {

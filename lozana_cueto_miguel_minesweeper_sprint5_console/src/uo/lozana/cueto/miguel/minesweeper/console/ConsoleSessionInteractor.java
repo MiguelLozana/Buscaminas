@@ -201,7 +201,11 @@ public class ConsoleSessionInteractor implements  SessionInteractor{
 		Console.println(Ansi.red("Progam is not able to continue"));
 	}
 	
-	
+	@Override
+	public String askFileName() {
+		
+		return Console.readString("Filename: ");
+	}
 	
 	/* ===================================
 	 * 
@@ -237,9 +241,5 @@ public class ConsoleSessionInteractor implements  SessionInteractor{
 	    Console.println(" .   .   .   .   .   .   .   .   . ");		
 	}
 
-	@Override
-	public String askFileName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 }

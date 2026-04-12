@@ -22,7 +22,11 @@ public class RankingParser {
 	
 	
 	
-	
+	/**
+	 * Creates a list of gameRankingEntries form a list of String 
+	 * @param list form create a gameRankingEntries list 
+	 * @return gameRankingEntries list 
+	 */
 	public List<GameRankingEntry> parse(List<String> list) {
 		ArgumentChecks.isNotNull(list);
 		List<GameRankingEntry> entries = new ArrayList<>();
