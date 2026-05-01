@@ -1,13 +1,13 @@
 package uo.lozana.cueto.miguel.minesweeper.util.log;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 
 import uo.mp.minesweeper.util.log.SimpleLogger;
 import uo.mp.util.check.ArgumentChecks;
+import uo.mp.util.file.FileUtil;
 
 public class FileLogger implements SimpleLogger{
 	
@@ -39,18 +39,27 @@ public class FileLogger implements SimpleLogger{
 	
 	@Override
 	public void log(Exception e) {
-		LocalDateTime currentDate = LocalDateTime.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
-		String date = "[" + currentDate.format(formatter).toString() + "]: "; //there is a space behind
+		ArgumentChecks.isNotNull(e);
+		log(e.getMessage());
+	}
+
 		
 		
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
-			
-			writer.write(date + e.getMessage() +"\n");
-			
-		} catch (IOException exception) {
-			throw new RuntimeException(ERROR_LOGING_MENSAGGE,e);
-		}
 		
+	@Override
+	public void log(String message) {
+		ArgumentChecks.isNotBlank(message);
+		message = getFormatedDate() + message +"\n";
+		
+		List<String> messageList= List.of(message);
+		new FileUtil().WriteLines(fileName, messageList, true); // append mode active
+	}
+	private String getFormatedDate() {
+		LocalDateTime now = LocalDateTime.now();
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss");
+	    return String.format("[%s] : ", now.format(formatter));
+	    
+		 
 	}
 }
+

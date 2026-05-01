@@ -12,7 +12,6 @@ import uo.mp.util.check.ArgumentChecks;
 import uo.mp.util.console.Console;
 
 public class ConsoleSessionInteractor implements  SessionInteractor{
-	private String user;
 	public ConsoleSessionInteractor() {
 	}
 	/* ===================================
@@ -72,7 +71,6 @@ public class ConsoleSessionInteractor implements  SessionInteractor{
 				Console.print("The name could not be read, Try again.");
 			}
 		}while( !validName);
-		this.user = name;
 		return name;
 	}
 	 /**
@@ -90,7 +88,7 @@ public class ConsoleSessionInteractor implements  SessionInteractor{
 	        catch (RuntimeException e) {
 	            Console.println("Incorrect option, type only a number (0 to 5 included)");
 	        }
-	    }while (option < 0 || option > 3);
+	    }while (option < 0 || option > 5);
 	    return option;
 	}
 	
@@ -153,25 +151,23 @@ public class ConsoleSessionInteractor implements  SessionInteractor{
 	 * @param ranking the list to show
 	 */
 	@Override
-	public void showPersonalRanking(List<GameRankingEntry> ranking){
+	public void showPersonalRanking(List<GameRankingEntry> filtredRanking){
 	String baseFormat ="%11s %10s %8s %6s %6s\n";
+	Console.print(Ansi.blue(String.format(baseFormat, "Date", "Hour", "Level", "Res", "Time")));
 		
-		Console.print(Ansi.blue(String.format(baseFormat, "Date", "Hour", "Level", "Res", "Time")));
-		
-		for (GameRankingEntry entry : ranking) {
-			if( entry.getUserName().equals(user)) {
-				String result = "LOOSE";
-				
-				String date = entry.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-				String hour = entry.getDate().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-				String level= entry.getLevel().toString();
-				if (entry.hasWon()) {
-				result = "WIN";
-				}
-				String time = "" + entry.getDuration();
+		for (GameRankingEntry entry : filtredRanking) {
 			
-				Console.print(String.format(baseFormat,date,hour,level,result,time)); 
-			}
+			String result = "LOOSE";
+				
+			String date = entry.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+			String hour = entry.getDate().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+			String level= entry.getLevel().toString();
+			if (entry.hasWon()) {
+				result = "WIN";
+	 		}
+			String time = "" + entry.getDuration();
+		
+			Console.print(String.format(baseFormat,date,hour,level,result,time)); 			
 		}
 	}
 	/**
